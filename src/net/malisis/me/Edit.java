@@ -48,7 +48,7 @@ public class Edit
 			firstAnchor = secondAnchor = null;
 		}
 		
-		MalisisCore.Message(s);
+		MalisisCore.message(s);
 	}
 	
 }
