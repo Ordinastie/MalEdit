@@ -3,7 +3,7 @@ package net.malisis.me;
 import net.malisis.core.MalisisCore;
 import net.malisis.core.event.user.KeyboardEvent;
 import net.malisis.core.util.Point;
-import net.malisis.core.util.Raytrace;
+import net.malisis.core.util.RaytraceWorld;
 import net.malisis.core.util.Vector;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MovingObjectPosition;
@@ -41,7 +41,7 @@ public class EditControls
 			EntityPlayer p = (EntityPlayer) event.entity;
 			Point start = new Point(p.getPosition(1));
 			Vector direction = new Vector(p.getLook(1));
-			Raytrace rt = new Raytrace(start, direction);
+			RaytraceWorld rt = new RaytraceWorld(start, direction);
 			MovingObjectPosition mop = rt.trace();
 			if (mop != null && mop.typeOfHit != MovingObjectType.MISS)
 				editManager.getCurrentEdit().setAnchor(new ChunkPosition(mop.blockX, mop.blockY, mop.blockZ));

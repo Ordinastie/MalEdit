@@ -1,8 +1,7 @@
 package net.malisis.me;
 
-import net.malisis.core.renderer.BaseRenderer;
-import net.malisis.core.renderer.RenderParameters;
-import net.malisis.core.renderer.preset.ShapePreset;
+import net.malisis.core.renderer.MalisisRenderer;
+import net.malisis.core.renderer.RenderType;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
@@ -16,7 +15,7 @@ import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
-public class EditRenderer extends BaseRenderer
+public class EditRenderer extends MalisisRenderer
 {
 	private static int X = 0;
 	private static int Y = 1;
@@ -79,7 +78,8 @@ public class EditRenderer extends BaseRenderer
 
 			// GL11.glTranslated(playerPosition[X], playerPosition[Y], playerPosition[Z]);
 
-			RenderParameters rp = new RenderParameters();
+			shape.resetState();
+			rp.reset();
 			rp.colorMultiplier.set(0xFFFFFF);
 			rp.alpha.set(0x55);
 
@@ -92,8 +92,8 @@ public class EditRenderer extends BaseRenderer
 						{
 							startDrawing(GL11.GL_LINES);
 							set(world, b, i, j, k, world.getBlockMetadata(i, j, k));
-							prepare(TYPE_ISBRH_WORLD);
-							drawShape(ShapePreset.Cube(), rp);
+							prepare(RenderType.ISBRH_WORLD);
+							drawShape(shape, rp);
 							clean();
 							t.draw();
 						}
@@ -108,29 +108,30 @@ public class EditRenderer extends BaseRenderer
 	public void drawBox(AxisAlignedBB aabb, int color)
 	{
 		// t.startDrawing(GL11.GL_LINE_STRIP);
-
-		RenderParameters rp = new RenderParameters();
+		shape.resetState();
+		rp.reset();
 		rp.useTexture.set(false);
 		rp.renderBounds.set(AxisAlignedBB.getBoundingBox(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ));
 		rp.colorMultiplier.set(color & 0xFFFFFF);
 		rp.alpha.set((color >> 24) & 0xFF);
 
 		t.startDrawingQuads();
-		drawShape(ShapePreset.Cube(), rp);
+		drawShape(shape, rp);
 		t.draw();
 
 	}
 
 	public void drawOutline(AxisAlignedBB aabb, int color)
 	{
-		RenderParameters rp = new RenderParameters();
+		shape.resetState();
+		rp.reset();
 		rp.useTexture.set(false);
 		rp.renderBounds.set(AxisAlignedBB.getBoundingBox(aabb.minX, aabb.minY, aabb.minZ, aabb.maxX, aabb.maxY, aabb.maxZ));
 		rp.colorMultiplier.set(color & 0xFFFFFF);
 		rp.alpha.set((color >> 24) & 0xFF);
 
 		t.startDrawing(GL11.GL_LINE_STRIP);
-		drawShape(ShapePreset.Cube(), rp);
+		drawShape(shape, rp);
 		t.draw();
 	}
 
